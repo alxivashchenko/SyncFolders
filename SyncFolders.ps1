@@ -20,7 +20,7 @@ function Sync-Folders {
         [string]$Replica
     )
 
-New-Item -ItemType File -Path $logFilePath -Force | Out-Null
+    New-Item -ItemType File -Path $logFilePath -Force | Out-Null
 
     if (-not (Test-Path -Path $Source)) {
         Log-Operation "Source path does not exist: $Source"
@@ -43,7 +43,8 @@ New-Item -ItemType File -Path $logFilePath -Force | Out-Null
                 New-Item -Path $replicaItemPath -ItemType Directory | Out-Null
                 Log-Operation "Created directory: $replicaItemPath"
             }
-        } else {
+        }
+        else {
             if (-not (Test-Path -Path $replicaItemPath) -or ($sourceItem.LastWriteTime -gt (Get-Item -Path $replicaItemPath).LastWriteTime)) {
                 Copy-Item -Path $sourceItem.FullName -Destination $replicaItemPath -Force
                 Log-Operation "Copied file: $sourceItem to $replicaItemPath"
@@ -61,7 +62,8 @@ New-Item -ItemType File -Path $logFilePath -Force | Out-Null
             if ($replicaItem.PSIsContainer) {
                 Remove-Item -Path $replicaItem.FullName -Recurse -Force
                 Log-Operation "Removed directory: $replicaItem"
-            } else {
+            }
+            else {
                 Remove-Item -Path $replicaItem.FullName -Force
                 Log-Operation "Removed file: $replicaItem"
             }
